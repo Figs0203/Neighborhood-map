@@ -5,6 +5,7 @@ class GrafoDirigido:
     def __init__(self):
         self.nodos = {}     # diccionario "HashTable"
         self.aristas = []   # lista
+        self.caminos = []
 
     def agregar_nodo(self, nodo):
         self.nodos[nodo.id] = nodo
@@ -28,6 +29,7 @@ class GrafoDirigido:
             return
         camino_actual = camino_actual + [inicio]
         if inicio == destino:
+            self.caminos += 1
             self.mostrar_camino(camino_actual)
             return
         for arista in self.aristas:
@@ -42,7 +44,7 @@ class GrafoDirigido:
                 arista = self.buscar_arista(camino[i].id, camino[i + 1].id)
                 print(f"{arista.nodo_inicio.id} -> {arista.nodo_destino.id} (Peso: {arista.peso})")
                 costo_total += arista.peso
-            print(f"Costo total del camino: [{costo_total} Km]\n")
+            print(f"Costo total del camino: [{costo_total} Km]\nCaminos recorridos: {self.caminos}\n")
             print('-'*20)
 
     def buscar_arista(self, inicio_id, destino_id):
@@ -63,3 +65,27 @@ class GrafoDirigido:
 
         else:
             return "Esta mondá no existe."
+
+    def get_nodo(self, nodo_id):
+        for nodo in self.nodos.values():
+            if nodo.id == nodo_id:
+                return nodo
+        return None
+
+    def dijkstra(self, inicio_id):
+        nodos = self.nodos
+        distancias = {nodo.id: float('inf') for nodo in nodos.values()}
+        distancias[inicio_id] = 0
+        visitados = set()
+
+        while len(visitados) < len(nodos):
+            nodo_actual = min(set(nodos.values()) - visitados, key=lambda nodo: distancias[nodo.id])
+            visitados.add(nodo_actual)
+
+            for arista in self.aristas:
+                if arista.nodo_inicio == nodo_actual and arista.nodo_destino not in visitados:
+                    distancia = distancias[nodo_actual.id] + arista.peso
+                    if distancia < distancias[arista.nodo_destino.id]:
+                        distancias[arista.nodo_destino.id] = distancia
+
+        return distancias

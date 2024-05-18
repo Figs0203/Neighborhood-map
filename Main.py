@@ -282,4 +282,7 @@ grafo.agregar_arista(nodo_pu, nodo_k, 65, "Avenida Nutibara")
 grafo.agregar_arista(nodo_pu, nodo_oo, 120, "Circular 3")
 grafo.agregar_arista(nodo_pu, nodo_ll, 120, "Avenida Nutibara")
 
-grafo.encontrar_camino("A", "S")
+distancias = grafo.dijkstra('A')
+print(f"La distancia más corta desde A a S es: {distancias['S']} metros")
+
+#grafo.encontrar_camino("A", "S")
