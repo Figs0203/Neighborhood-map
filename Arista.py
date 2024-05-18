@@ -6,4 +6,4 @@ class Arista:
         self.calle = calle
 
     def __str__(self):
-        return f'ARISTA : [{self.nodo_inicio.id} --> {self.nodo_destino.id}:: w:{self.peso}]'
+        return f'Vía: {self.calle}. Peso: {self.peso}'

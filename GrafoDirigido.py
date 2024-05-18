@@ -3,8 +3,8 @@ from Arista import Arista
 
 class GrafoDirigido:
     def __init__(self):
-        self.nodos = {}     # diccionario "HashTable"
-        self.aristas = []   # lista
+        self.nodos = {}  # diccionario "HashTable"
+        self.aristas = []  # lista
         self.caminos = []
 
     def agregar_nodo(self, nodo):
@@ -19,7 +19,7 @@ class GrafoDirigido:
         for arista in self.aristas:
             print(f"{arista}")
 
-    def encontrar_camino(self, inicio_id, destino_id, camino_actual=None):
+    def encontrar_caminos(self, inicio_id, destino_id, camino_actual=None, peso=0):
         if camino_actual is None:
             camino_actual = []  # lista
         inicio = self.nodos.get(inicio_id)
@@ -29,23 +29,13 @@ class GrafoDirigido:
             return
         camino_actual = camino_actual + [inicio]
         if inicio == destino:
-            self.caminos += 1
-            self.mostrar_camino(camino_actual)
+            camino_actual.append(peso)
+            self.caminos.append(camino_actual[:])  # Almacenar una copia del camino actual
             return
         for arista in self.aristas:
             if arista.nodo_inicio == inicio and arista.nodo_destino not in camino_actual:
-                self.encontrar_camino(arista.nodo_destino.id, destino_id, camino_actual[:])
-
-    def mostrar_camino(self, camino):
-        if camino:
-            print("\nCAMINO ENCONTRADO:")
-            costo_total = 0
-            for i in range(len(camino) - 1):
-                arista = self.buscar_arista(camino[i].id, camino[i + 1].id)
-                print(f"{arista.nodo_inicio.id} -> {arista.nodo_destino.id} (Peso: {arista.peso})")
-                costo_total += arista.peso
-            print(f"Costo total del camino: [{costo_total} Km]\nCaminos recorridos: {self.caminos}\n")
-            print('-'*20)
+                peso += arista.peso
+                self.encontrar_caminos(arista.nodo_destino.id, destino_id, camino_actual[:], peso)
 
     def buscar_arista(self, inicio_id, destino_id):
         for arista in self.aristas:
@@ -89,3 +79,14 @@ class GrafoDirigido:
                         distancias[arista.nodo_destino.id] = distancia
 
         return distancias
+
+    def imprimir_camino(self):
+        for numero in range(len(self.caminos)-1):
+            print(f"\nImprimiendo el camino número {numero+1}")
+            for i in range(len(self.caminos[numero]) - 2):
+                nodo_actual = self.caminos[numero][i]
+                nodo_siguiente = self.caminos[numero][i + 1]
+                for arista in self.aristas:
+                    if arista.nodo_inicio == nodo_actual and arista.nodo_destino == nodo_siguiente:
+                        print(f"{nodo_actual.id}   --->   {arista.calle}   --->   {nodo_siguiente.id}")
+            print(f"Peso del camino: {self.caminos[numero][-1]}")
