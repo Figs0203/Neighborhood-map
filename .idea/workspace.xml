@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e2de5912-d7a6-444c-8884-8b090e1a54ef" name="Changes" comment="Antes de los cambios">
-      <change afterPath="$PROJECT_DIR$/Camino.py" afterDir="false" />
+    <list default="true" id="e2de5912-d7a6-444c-8884-8b090e1a54ef" name="Changes" comment="Cambios exitosos">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Arista.py" beforeDir="false" afterPath="$PROJECT_DIR$/Arista.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Camino.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/GrafoDirigido.py" beforeDir="false" afterPath="$PROJECT_DIR$/GrafoDirigido.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Nodo.py" beforeDir="false" afterPath="$PROJECT_DIR$/Nodo.py" afterDir="false" />
@@ -97,12 +97,21 @@
       <option name="project" value="LOCAL" />
       <updated>1716057120109</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Cambios exitosos">
+      <option name="closed" value="true" />
+      <created>1716064983309</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1716064983309</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="jakdfsjñslafkjdñsalf" />
     <MESSAGE value="Antes de los cambios" />
-    <option name="LAST_COMMIT_MESSAGE" value="Antes de los cambios" />
+    <MESSAGE value="Cambios exitosos" />
+    <option name="LAST_COMMIT_MESSAGE" value="Cambios exitosos" />
   </component>
 </project>

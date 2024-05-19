@@ -19,7 +19,7 @@ class GrafoDirigido:
         for arista in self.aristas:
             print(f"{arista}")
 
-    def encontrar_caminos(self, inicio_id, destino_id, camino_actual=None, peso=0):
+    def encontrar_caminos(self, inicio_id, destino_id, camino_actual=None, peso=0, curvas=-1, calle_anterior=None):
         if camino_actual is None:
             camino_actual = []  # lista
         inicio = self.nodos.get(inicio_id)
@@ -29,32 +29,23 @@ class GrafoDirigido:
             return
         camino_actual = camino_actual + [inicio]
         if inicio == destino:
+            camino_actual.append(curvas)
             camino_actual.append(peso)
             self.caminos.append(camino_actual[:])  # Almacenar una copia del camino actual
             return
         for arista in self.aristas:
             if arista.nodo_inicio == inicio and arista.nodo_destino not in camino_actual:
-                peso += arista.peso
-                self.encontrar_caminos(arista.nodo_destino.id, destino_id, camino_actual[:], peso)
+                nuevo_peso = peso + arista.peso
+                nuevas_curvas = curvas
+                if calle_anterior != arista.calle:
+                    nuevas_curvas += 1
+                self.encontrar_caminos(arista.nodo_destino.id, destino_id, camino_actual[:], nuevo_peso, nuevas_curvas,
+                                       arista.calle)
 
     def buscar_arista(self, inicio_id, destino_id):
         for arista in self.aristas:
             if arista.nodo_inicio.id == inicio_id and arista.nodo_destino.id == destino_id:
                 return arista
-
-    def eliminar_nodo(self, nodo):
-        if nodo in self.nodos.keys():
-            self.nodos.pop(nodo)
-            print(f"El nodo {nodo} ha sido exterminado.")
-            queu = []
-            for i in self.aristas:
-                if i.nodo_inicio == nodo or i.nodo_destino == nodo:
-                    queu.append(i)
-                for j in queu:
-                    self.aristas.remove(j)
-
-        else:
-            return "Esta mondá no existe."
 
     def get_nodo(self, nodo_id):
         for nodo in self.nodos.values():
@@ -80,13 +71,47 @@ class GrafoDirigido:
 
         return distancias
 
-    def imprimir_camino(self):
-        for numero in range(len(self.caminos)-1):
-            print(f"\nImprimiendo el camino número {numero+1}")
-            for i in range(len(self.caminos[numero]) - 2):
-                nodo_actual = self.caminos[numero][i]
-                nodo_siguiente = self.caminos[numero][i + 1]
-                for arista in self.aristas:
-                    if arista.nodo_inicio == nodo_actual and arista.nodo_destino == nodo_siguiente:
-                        print(f"{nodo_actual.id}   --->   {arista.calle}   --->   {nodo_siguiente.id}")
-            print(f"Peso del camino: {self.caminos[numero][-1]}")
+    def merge_sort(self, array, key):
+        if len(array) > 1:
+            mid = len(array) // 2
+            left_half = array[:mid]
+            right_half = array[mid:]
+
+            self.merge_sort(left_half, key)
+            self.merge_sort(right_half, key)
+
+            i = j = k = 0
+            while i < len(left_half) and j < len(right_half):
+                if left_half[i][key] < right_half[j][key]:
+                    array[k] = left_half[i]
+                    i += 1
+                else:
+                    array[k] = right_half[j]
+                    j += 1
+                k += 1
+
+            while i < len(left_half):
+                array[k] = left_half[i]
+                i += 1
+                k += 1
+
+            while j < len(right_half):
+                array[k] = right_half[j]
+                j += 1
+                k += 1
+
+    def ordenar_y_guardar_caminos(self, criterio='distancia'):
+        print("Ordenando caminos\n")
+        self.merge_sort(self.caminos, criterio)
+
+        print("Escribiendo el archivo de texto\n")
+        with open('caminos_ordenados.txt', 'w', encoding='utf-8') as file:
+            for numero, camino in enumerate(self.caminos, start=1):
+                file.write(f"Camino número {numero}:\n")
+                for i in range(len(camino) - 2):
+                    nodo_actual = camino[i]
+                    nodo_siguiente = camino[i + 1]
+                    for arista in self.aristas:
+                        if arista.nodo_inicio == nodo_actual and arista.nodo_destino == nodo_siguiente:
+                            file.write(f"{nodo_actual.id} ---> {arista.calle} ---> {nodo_siguiente.id}\n")
+                file.write(f"Peso del camino: {camino[-1]/1000} kilometros\nCurvas del camino: {camino[-2]}\n\n")

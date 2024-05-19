@@ -88,7 +88,6 @@ grafo.agregar_nodo(nodo_zz)
 grafo.agregar_nodo(nodo_ye)
 
 
-
 grafo.agregar_arista(nodo_a, nodo_b, 100, "Circular 74")
 grafo.agregar_arista(nodo_a, nodo_c, 90, "Avenida Nutibara")
 grafo.agregar_arista(nodo_a, nodo_d, 60, "Avenida Nutibara")
@@ -207,9 +206,26 @@ grafo.agregar_arista(nodo_zz, nodo_cc, 70, "Calle 33A")
 grafo.agregar_arista(nodo_ye, nodo_v, 180, "Transversal 35")
 grafo.agregar_arista(nodo_ye, nodo_bb, 50, "Circular 72")
 
-distancias = grafo.dijkstra('A')
-print(f"La distancia más corta desde A a S es: {distancias['S']} metros\n")
 
-grafo.encontrar_caminos("A", "S")
+print("---------- Menú de opciones ----------")
+print("1) Utilizar el algoritmo de Dijkstra para hallar el camino mas corto")
+print("2) Ordenar los caminos por su distancia")
+print("3) Ordenar los caminos por su número de curvas")
+respuesta = int(input("Seleccione el número de la opción que desea ejecutar: "))
 
-grafo.imprimir_camino()
+if respuesta == 1:
+    distancias = grafo.dijkstra('A')
+    print(f"La distancia más corta desde A a S es: {distancias['S']/1000} kilometros\n")
+
+elif respuesta == 2:
+    print("Encontrando caminos\n")
+    grafo.encontrar_caminos("A", "S")
+    grafo.ordenar_y_guardar_caminos(-1)
+
+elif respuesta == 3:
+    print("Encontrando caminos\n")
+    grafo.encontrar_caminos("A", "S")
+    grafo.ordenar_y_guardar_caminos(-2)
+
+else:
+    print("Respuesta no aceptada")
